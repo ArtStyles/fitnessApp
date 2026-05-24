@@ -278,10 +278,10 @@ export default function LandingPage() {
         {/* ── Layered title + photo ── */}
         <div className="relative flex-1 flex items-center justify-center">
 
-          {/* Massive background title — BEHIND the photo */}
+          {/* Hero title */}
           <motion.div
             style={{ y: textY, opacity }}
-            className="absolute inset-x-0 flex flex-col items-center justify-center pointer-events-none select-none z-10"
+            className="absolute inset-x-0 px-6 flex flex-col items-center justify-center pointer-events-none select-none z-10"
           >
             <div className="overflow-hidden">
               <motion.h1
@@ -289,7 +289,7 @@ export default function LandingPage() {
                 animate={{ y: '0%' }}
                 transition={{ duration: 1, ease: EASE, delay: 0.1 }}
                 className="font-display-condensed font-black text-white leading-none tracking-tighter text-center"
-                style={{ fontSize: 'clamp(6rem, 18vw, 18rem)', lineHeight: 0.85 }}
+                style={{ fontSize: 'clamp(4rem, 13vw, 13rem)', lineHeight: 0.88 }}
               >
                 ENTRENA
               </motion.h1>
@@ -298,27 +298,16 @@ export default function LandingPage() {
               <motion.h1
                 initial={{ y: '100%' }}
                 animate={{ y: '0%' }}
-                transition={{ duration: 1, ease: EASE, delay: 0.18 }}
+                transition={{ duration: 1, ease: EASE, delay: 0.2 }}
                 className="font-display-condensed font-black leading-none tracking-tighter text-center"
                 style={{
-                  fontSize: 'clamp(6rem, 18vw, 18rem)',
-                  lineHeight: 0.85,
-                  WebkitTextStroke: '2px rgba(255,255,255,0.6)',
+                  fontSize: 'clamp(3rem, 9.5vw, 9.5rem)',
+                  lineHeight: 0.88,
+                  WebkitTextStroke: '2px rgba(255,255,255,0.9)',
                   color: 'transparent',
                 }}
               >
-                INTELI
-              </motion.h1>
-            </div>
-            <div className="overflow-hidden">
-              <motion.h1
-                initial={{ y: '100%' }}
-                animate={{ y: '0%' }}
-                transition={{ duration: 1, ease: EASE, delay: 0.26 }}
-                className="font-display-condensed font-black text-white leading-none tracking-tighter text-center"
-                style={{ fontSize: 'clamp(6rem, 18vw, 18rem)', lineHeight: 0.85 }}
-              >
-                GENTE
+                INTELIGENTE
               </motion.h1>
             </div>
           </motion.div>
