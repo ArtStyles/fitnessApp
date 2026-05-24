@@ -281,7 +281,7 @@ export default function LandingPage() {
           {/* Hero title */}
           <motion.div
             style={{ y: textY, opacity }}
-            className="absolute inset-x-0 px-6 flex flex-col items-center justify-center pointer-events-none select-none z-10"
+            className="absolute inset-x-0 flex flex-col items-center justify-center pointer-events-none select-none z-10"
           >
             <div className="overflow-hidden">
               <motion.h1
@@ -301,7 +301,7 @@ export default function LandingPage() {
                 transition={{ duration: 1, ease: EASE, delay: 0.2 }}
                 className="font-display-condensed font-black leading-none tracking-tighter text-center"
                 style={{
-                  fontSize: 'clamp(3rem, 9.5vw, 9.5rem)',
+                  fontSize: 'clamp(2rem, 7.5vw, 8rem)',
                   lineHeight: 0.88,
                   WebkitTextStroke: '2px rgba(255,255,255,0.9)',
                   color: 'transparent',
