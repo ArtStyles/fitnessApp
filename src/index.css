@@ -143,3 +143,20 @@
 @keyframes card-border-spin {
   to { --card-angle: 360deg; }
 }
+
+/* ── Cinematic landing animations ─────────────────────────────────────────── */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0px) rotate(var(--rotate, 0deg)); }
+  50%       { transform: translateY(-18px) rotate(var(--rotate, 0deg)); }
+}
+@keyframes float-y-slow {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.cinematic-float      { animation: float-y      3.8s ease-in-out infinite; }
+.cinematic-float-slow { animation: float-y-slow 5s   ease-in-out infinite; }
+.font-display-condensed { font-family: 'Barlow Condensed', 'Space Grotesk', sans-serif; }
