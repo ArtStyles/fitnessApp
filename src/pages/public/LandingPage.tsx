@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { useRef } from 'react'
+import { useRef, useLayoutEffect } from 'react'
 import {
   ArrowRight, ArrowUpRight, Dumbbell, TrendingUp,
   Flame, Trophy, Play, ChevronRight,
@@ -8,6 +8,11 @@ import {
 import { Button } from '@/components/ui/button'
 import { mockPricingPlans, mockWorkouts, mockTrainers } from '@/src/data/mockData'
 import PricingCard from '@/src/components/ui/PricingCard'
+import HeroScene from '@/src/components/3d/HeroScene'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 // ── Marquee strip ─────────────────────────────────────────────────────────────
 const marqueeItems = [
@@ -76,11 +81,75 @@ export default function LandingPage() {
 
   const featuredWorkouts = mockWorkouts.slice(0, 3)
 
+  // ── GSAP animations ────────────────────────────────────────────────────────
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+
+      // 1. Parallax on decorative ghost numbers / bg spans
+      gsap.utils.toArray<HTMLElement>('.gsap-parallax').forEach(el => {
+        gsap.to(el, {
+          yPercent: -25,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el.closest('section') ?? el,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.5,
+          },
+        })
+      })
+
+      // 2. 3-D reveal on section headers (rotateX from top)
+      gsap.utils.toArray<HTMLElement>('.gsap-reveal-3d').forEach(el => {
+        gsap.from(el, {
+          opacity: 0,
+          rotateX: 38,
+          y: 50,
+          transformPerspective: 900,
+          transformOrigin: 'top center',
+          duration: 0.95,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 88%',
+            toggleActions: 'play none none none',
+          },
+        })
+      })
+
+      // 3. Animated number counters
+      gsap.utils.toArray<HTMLElement>('.gsap-counter').forEach(el => {
+        const to     = parseFloat(el.dataset.to    ?? '0')
+        const suffix = el.dataset.suffix ?? ''
+        const dec    = parseInt(el.dataset.dec   ?? '0')
+        const obj    = { val: 0 }
+        gsap.to(obj, {
+          val: to,
+          duration: 2.2,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            once: true,
+          },
+          onUpdate() {
+            el.textContent = obj.val.toFixed(dec) + suffix
+          },
+        })
+      })
+
+    })
+    return () => ctx.revert()
+  }, [])
+
   return (
     <div className="overflow-x-hidden">
 
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
       <section ref={heroRef} className="relative min-h-screen overflow-hidden flex items-end">
+
+        {/* ── 3D SCENE ── */}
+        <HeroScene />
 
         {/* ── CINEMATIC BACKGROUND ── */}
         <motion.div style={{ y: imgY }} className="absolute inset-0">
@@ -171,7 +240,7 @@ export default function LandingPage() {
                 </Button>
               </motion.div>
 
-              {/* Stats strip */}
+              {/* Stats strip — GSAP counters */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -179,13 +248,20 @@ export default function LandingPage() {
                 className="flex flex-wrap gap-8 pt-8 border-t border-border/30"
               >
                 {[
-                  { value: '50K+', label: 'usuarios' },
-                  { value: '200+', label: 'rutinas' },
-                  { value: '4.9★', label: 'valoración' },
-                  { value: '95%',  label: 'satisfacción' },
+                  { to: 50,  suffix: 'K+', dec: 0, label: 'usuarios'      },
+                  { to: 200, suffix: '+',  dec: 0, label: 'rutinas'        },
+                  { to: 4.9, suffix: '★',  dec: 1, label: 'valoración'     },
+                  { to: 95,  suffix: '%',  dec: 0, label: 'satisfacción'   },
                 ].map(s => (
                   <div key={s.label}>
-                    <p className="text-2xl font-black text-foreground">{s.value}</p>
+                    <p
+                      className="gsap-counter text-2xl font-black text-foreground"
+                      data-to={s.to}
+                      data-suffix={s.suffix}
+                      data-dec={s.dec}
+                    >
+                      {s.to}{s.suffix}
+                    </p>
                     <p className="text-xs text-muted-foreground mt-0.5 uppercase tracking-widest">{s.label}</p>
                   </div>
                 ))}
@@ -226,12 +302,12 @@ export default function LandingPage() {
       {/* ── HOW IT WORKS — large numbered steps ───────────────────────────── */}
       <section className="py-32 relative overflow-hidden">
         {/* Ghost number in bg */}
-        <span className="absolute right-0 top-1/2 -translate-y-1/2 text-[20rem] font-black text-border/20 leading-none select-none pointer-events-none">
+        <span className="gsap-parallax absolute right-0 top-1/2 -translate-y-1/2 text-[20rem] font-black text-border/20 leading-none select-none pointer-events-none">
           01
         </span>
 
         <div className="container mx-auto px-4">
-          <div className="mb-20">
+          <div className="gsap-reveal-3d mb-20">
             <p className="text-primary text-sm font-semibold tracking-[0.2em] uppercase mb-3">Cómo funciona</p>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight">
               Tres pasos.<br />
@@ -288,7 +364,7 @@ export default function LandingPage() {
       <section className="py-32 bg-card/30 border-y border-border">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-            <div>
+            <div className="gsap-reveal-3d">
               <p className="text-primary text-sm font-semibold tracking-[0.2em] uppercase mb-3">Funcionalidades</p>
               <h2 className="text-4xl md:text-6xl font-black tracking-tight">
                 Todo lo que<br />necesitas.
