@@ -87,7 +87,14 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative">
+        {/* Logo — back to home */}
+        <Link to="/" className="absolute top-6 left-8 flex items-center gap-2.5 shrink-0 group">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/30">
+            <span className="text-primary-foreground font-bold text-lg leading-none">F</span>
+          </div>
+          <span className="font-bold text-xl tracking-tight group-hover:text-primary transition-colors">FitForge</span>
+        </Link>
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
