@@ -1,9 +1,8 @@
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { useRef, useState, ReactNode } from 'react'
-import { ArrowRight, ArrowUpRight, Dumbbell, Trophy, Flame, TrendingUp, ChevronRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { mockPricingPlans, mockWorkouts, mockTrainers } from '@/src/data/mockData'
+import { ArrowRight, ArrowUpRight, Dumbbell, Flame, TrendingUp, ChevronRight } from 'lucide-react'
+import { mockPricingPlans, mockWorkouts } from '@/src/data/mockData'
 import PricingCard from '@/src/components/ui/PricingCard'
 
 // ── Ease curve (cinematic) ───────────────────────────────────────────────────
@@ -84,29 +83,6 @@ function Float({ children, delay = 0 }: { children: ReactNode; delay?: number })
   )
 }
 
-// ── Stacked images card ──────────────────────────────────────────────────────
-function StackedImages({ srcs }: { srcs: string[] }) {
-  return (
-    <div className="relative w-40 h-40">
-      {srcs.map((src, i) => (
-        <motion.div
-          key={i}
-          className="absolute inset-0 rounded-2xl overflow-hidden border border-white/10 shadow-xl"
-          style={{
-            rotate: i === 0 ? -8 : i === 1 ? 4 : 0,
-            translateX: i === 0 ? -12 : i === 1 ? 10 : 0,
-            translateY: i === 0 ? 10 : i === 1 ? -6 : 0,
-            zIndex: srcs.length - i,
-          }}
-          whileHover={{ rotate: 0, translateX: 0, translateY: 0 }}
-          transition={{ duration: 0.4, ease: EASE }}
-        >
-          <img src={src} alt="" className="w-full h-full object-cover" />
-        </motion.div>
-      ))}
-    </div>
-  )
-}
 
 // ── Scrolling marquee strip ──────────────────────────────────────────────────
 const MARQUEE_ITEMS = [
@@ -146,21 +122,32 @@ function NumberedTabs({
   active,
   onChange,
 }: {
-  items: string[]
+  items: { label: string }[]
   active: number
   onChange: (i: number) => void
 }) {
   return (
-    <div className="flex items-center justify-between border-b border-black/10 pb-4 mb-12">
-      {items.map((_, i) => (
+    <div className="flex items-stretch border-b border-black/10 mb-16">
+      {items.map((item, i) => (
         <button
           key={i}
           onClick={() => onChange(i)}
-          className={`text-xs font-bold tracking-widest transition-colors font-display-condensed ${
+          className={`relative flex items-center gap-2 flex-1 pb-4 transition-colors text-left ${
             active === i ? 'text-black' : 'text-black/25 hover:text-black/50'
           }`}
         >
-          {String(i + 1).padStart(2, '0')}
+          <span className="text-xs font-black tracking-widest font-display-condensed">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <span className="hidden sm:inline text-xs font-bold tracking-wider font-display-condensed uppercase">
+            {item.label}
+          </span>
+          {active === i && (
+            <motion.div
+              layoutId="tab-underline"
+              className="absolute bottom-0 left-0 right-0 h-0.5 bg-black"
+            />
+          )}
         </button>
       ))}
     </div>
@@ -388,20 +375,20 @@ export default function LandingPage() {
       {/* ══════════════════════════════════════════════════════════════════════
           SPLIT — Dark top / White bottom with floating app card
       ══════════════════════════════════════════════════════════════════════ */}
-      <section className="relative">
+      <section className="relative min-h-[760px]">
 
         {/* Dark half */}
-        <div className="bg-black h-48 relative">
+        <div className="bg-black h-80 relative">
           <ArcBg dark />
         </div>
 
         {/* White half */}
-        <div className="bg-white relative min-h-[360px]">
+        <div className="bg-white relative min-h-[480px]">
           <ArcBg />
         </div>
 
-        {/* Floating card crossing the boundary */}
-        <div className="absolute inset-x-0 top-0 flex justify-center items-start" style={{ marginTop: '-10px' }}>
+        {/* Floating card — centered over the dark/white boundary */}
+        <div className="absolute inset-x-0 flex justify-center" style={{ top: '8rem' }}>
           <Float>
             <motion.div
               initial={{ opacity: 0, y: 40, scale: 0.95 }}
@@ -496,64 +483,96 @@ export default function LandingPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4, ease: EASE }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center"
             >
-              {/* Left — stacked images + text */}
-              <div className="space-y-6">
-                <FadeIn>
-                  <p className={`text-xs font-bold tracking-widest uppercase font-display-condensed ${feat.color}`}>
-                    FITFORGE :
-                  </p>
-                  <p className="text-xs text-black/50 uppercase leading-relaxed tracking-wide font-display-condensed mt-2">
+              {/* Left — big title + description + navigation */}
+              <div className="space-y-8">
+                <div>
+                  <FadeIn>
+                    <p className={`text-xs font-bold tracking-[0.25em] uppercase font-display-condensed mb-4 ${feat.color}`}>
+                      FITFORGE :
+                    </p>
+                  </FadeIn>
+                  <Reveal>
+                    <h2
+                      className="font-display-condensed font-black text-black leading-none tracking-tighter whitespace-pre-line"
+                      style={{ fontSize: 'clamp(3.5rem, 7vw, 7rem)' }}
+                    >
+                      {feat.title}
+                    </h2>
+                  </Reveal>
+                </div>
+
+                <FadeIn delay={0.2}>
+                  <p className="text-sm text-black/50 leading-relaxed max-w-sm">
                     {feat.desc}
                   </p>
                 </FadeIn>
-                <FadeIn delay={0.1}>
-                  <StackedImages srcs={feat.imgs} />
-                </FadeIn>
-              </div>
 
-              {/* Center — big title */}
-              <div className="flex flex-col items-center justify-center text-center py-8">
-                <Reveal>
-                  <h2
-                    className="font-display-condensed font-black text-black leading-none tracking-tighter whitespace-pre-line"
-                    style={{ fontSize: 'clamp(3rem, 6vw, 6rem)' }}
-                  >
-                    {feat.title}
-                  </h2>
-                </Reveal>
-                <FadeIn delay={0.2} className="mt-8 flex gap-4">
+                <FadeIn delay={0.3} className="flex items-center gap-4">
                   <button
                     onClick={() => setActiveFeature(i => Math.max(0, i - 1))}
                     disabled={activeFeature === 0}
-                    className="w-10 h-10 rounded-full border border-black/20 flex items-center justify-center hover:bg-black hover:text-white transition-colors disabled:opacity-20"
+                    className="w-10 h-10 rounded-full border-2 border-black/15 flex items-center justify-center hover:bg-black hover:text-white transition-colors disabled:opacity-20 text-sm font-bold"
                   >
                     ←
                   </button>
                   <button
                     onClick={() => setActiveFeature(i => Math.min(features.length - 1, i + 1))}
                     disabled={activeFeature === features.length - 1}
-                    className="w-10 h-10 rounded-full border border-black/20 flex items-center justify-center hover:bg-black hover:text-white transition-colors disabled:opacity-20"
+                    className="w-10 h-10 rounded-full border-2 border-black/15 flex items-center justify-center hover:bg-black hover:text-white transition-colors disabled:opacity-20 text-sm font-bold"
                   >
                     →
                   </button>
+                  <Link
+                    to="/register"
+                    className={`ml-4 inline-flex items-center gap-1.5 font-bold text-xs tracking-widest uppercase font-display-condensed hover:opacity-60 transition-opacity ${feat.color}`}
+                  >
+                    EXPLORAR <ArrowUpRight className="w-3.5 h-3.5" />
+                  </Link>
                 </FadeIn>
               </div>
 
-              {/* Right — stacked images + link */}
-              <div className="space-y-6 flex flex-col items-end">
-                <FadeIn delay={0.15}>
-                  <p className="text-xs font-bold tracking-widest uppercase text-right font-display-condensed text-black/30">
-                    PRÓXIMAMENTE :
-                  </p>
-                  <p className="text-xs text-black/40 uppercase leading-relaxed tracking-wide font-display-condensed mt-2 text-right max-w-xs">
-                    Más funcionalidades diseñadas para atletas serios que buscan resultados medibles.
-                  </p>
-                </FadeIn>
-                <FadeIn delay={0.2}>
-                  <StackedImages srcs={[feat.imgs[1], feat.imgs[0]]} />
-                </FadeIn>
+              {/* Right — large feature image with floating overlay */}
+              <div className="relative">
+                {/* Watermark number */}
+                <div
+                  className="absolute -top-10 -right-4 font-display-condensed font-black text-black/[0.04] select-none pointer-events-none z-0"
+                  style={{ fontSize: '14rem', lineHeight: 1 }}
+                >
+                  {String(activeFeature + 1).padStart(2, '0')}
+                </div>
+
+                <motion.div
+                  className="relative rounded-3xl overflow-hidden shadow-2xl shadow-black/10 z-10"
+                  style={{ aspectRatio: '4/5' }}
+                  initial={{ scale: 0.97, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
+                >
+                  <img
+                    src={feat.imgs[0]}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
+                  {/* Feature label on image */}
+                  <div className="absolute bottom-5 left-5">
+                    <span className={`text-xs font-black tracking-widest uppercase font-display-condensed ${feat.color}`}>
+                      {feat.label}
+                    </span>
+                  </div>
+                </motion.div>
+
+                {/* Floating second image */}
+                <motion.div
+                  className="absolute -bottom-5 -left-5 w-40 h-40 rounded-2xl overflow-hidden border-4 border-white shadow-2xl z-20"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, ease: EASE, delay: 0.2 }}
+                >
+                  <img src={feat.imgs[1]} alt="" className="w-full h-full object-cover" />
+                </motion.div>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -699,9 +718,9 @@ export default function LandingPage() {
             <FadeIn key={workout.id} delay={i * 0.08} className="shrink-0 w-72 snap-start">
               <div className="rounded-3xl overflow-hidden bg-black group cursor-pointer">
                 <div className="relative h-48 overflow-hidden">
-                  {workout.imageUrl && (
+                  {workout.image && (
                     <img
-                      src={workout.imageUrl}
+                      src={workout.image}
                       alt={workout.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
