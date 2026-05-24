@@ -307,12 +307,13 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-12 grid-rows-auto gap-4">
 
             {/* Big left — Workout tracker */}
+            <div className="md:col-span-7 feature-card-border-wrap" style={{ animationDelay: '0s' }}>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="md:col-span-7 relative rounded-3xl overflow-hidden min-h-[380px] bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 p-8 flex flex-col justify-between group"
+              className="relative rounded-[22px] overflow-hidden min-h-[380px] bg-card bg-gradient-to-br from-primary/20 to-primary/5 p-8 flex flex-col justify-between group w-full"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <Dumbbell className="w-10 h-10 text-primary mb-auto" />
@@ -338,14 +339,16 @@ export default function LandingPage() {
                 </div>
               </div>
             </motion.div>
+            </div>
 
             {/* Right top — Nutrition */}
+            <div className="md:col-span-5 feature-card-border-wrap" style={{ animationDelay: '1s' }}>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="md:col-span-5 rounded-3xl overflow-hidden min-h-[180px] relative group"
+              className="rounded-[22px] overflow-hidden min-h-[180px] relative group w-full"
             >
               <img
                 src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800"
@@ -359,14 +362,16 @@ export default function LandingPage() {
                 <p className="text-sm text-muted-foreground mt-1">Macros calculados y recetas reales para tu objetivo</p>
               </div>
             </motion.div>
+            </div>
 
             {/* Bottom left — Progress */}
+            <div className="md:col-span-4 feature-card-border-wrap" style={{ animationDelay: '2s' }}>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="md:col-span-4 rounded-3xl overflow-hidden min-h-[200px] relative group"
+              className="rounded-[22px] overflow-hidden min-h-[200px] relative group w-full"
             >
               <img
                 src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800"
@@ -380,14 +385,16 @@ export default function LandingPage() {
                 <p className="text-sm text-muted-foreground mt-1">Gráficas, heatmap y comparación semanal</p>
               </div>
             </motion.div>
+            </div>
 
             {/* Bottom middle — Gamification */}
+            <div className="md:col-span-4 feature-card-border-wrap" style={{ animationDelay: '3s' }}>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="md:col-span-4 rounded-3xl bg-gradient-to-br from-yellow-500/20 to-accent/10 border border-yellow-500/20 min-h-[200px] p-7 flex flex-col justify-between group hover:border-yellow-500/40 transition-colors"
+              className="rounded-[22px] bg-card bg-gradient-to-br from-yellow-500/20 to-accent/10 min-h-[200px] p-7 flex flex-col justify-between group w-full"
             >
               <Trophy className="w-9 h-9 text-yellow-400" />
               <div>
@@ -396,14 +403,16 @@ export default function LandingPage() {
                 <p className="text-sm text-muted-foreground">Puntos, badges y desafíos que te mantienen constante</p>
               </div>
             </motion.div>
+            </div>
 
             {/* Bottom right — Plans */}
+            <div className="md:col-span-4 feature-card-border-wrap" style={{ animationDelay: '4s' }}>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.25 }}
-              className="md:col-span-4 rounded-3xl bg-gradient-to-br from-accent/20 to-accent/5 border border-accent/20 min-h-[200px] p-7 flex flex-col justify-between hover:border-accent/40 transition-colors group"
+              className="rounded-[22px] bg-card bg-gradient-to-br from-accent/20 to-accent/5 min-h-[200px] p-7 flex flex-col justify-between group w-full"
             >
               <div className="flex gap-1">
                 {[4, 5, 6, 7, 8].map(w => (
@@ -420,6 +429,7 @@ export default function LandingPage() {
                 <p className="text-sm text-muted-foreground">Periodización profesional semana a semana</p>
               </div>
             </motion.div>
+            </div>
           </div>
         </div>
       </section>

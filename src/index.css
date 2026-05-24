@@ -112,4 +112,34 @@
   .glow-accent {
     box-shadow: 0 0 40px oklch(0.70 0.15 180 / 0.3);
   }
+  .feature-card-border-wrap {
+    display: flex;
+    padding: 2px;
+    border-radius: 1.5rem;
+    background: conic-gradient(
+      from var(--card-angle),
+      transparent 0deg,
+      transparent 248deg,
+      oklch(0.75 0.18 45 / 0.5) 265deg,
+      oklch(0.92 0.12 50)        275deg,
+      oklch(0.75 0.18 45 / 0.5) 285deg,
+      transparent 302deg,
+      transparent 360deg
+    );
+    animation: card-border-spin 4s linear infinite;
+  }
+  .feature-card-border-wrap > * {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+@property --card-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes card-border-spin {
+  to { --card-angle: 360deg; }
 }
