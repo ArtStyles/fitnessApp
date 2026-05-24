@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "db:seed": "ts-node --transpile-only prisma/seed-supabase.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
