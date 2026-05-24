@@ -158,7 +158,6 @@ function NumberedTabs({
 export default function LandingPage() {
   const heroRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
-  const imgY    = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
   const textY   = useTransform(scrollYProgress, [0, 1], ['0%', '10%'])
   const opacity = useTransform(scrollYProgress, [0, 0.75], [1, 0])
 
@@ -324,18 +323,6 @@ export default function LandingPage() {
             </div>
           </motion.div>
 
-          {/* Athlete photo — IN FRONT of the text */}
-          <motion.div
-            style={{ y: imgY }}
-            className="relative z-20 h-[75vh] max-h-[700px] flex items-end justify-center pointer-events-none"
-          >
-            <img
-              src="/owner.png"
-              alt=""
-              className="h-full w-auto object-contain object-bottom drop-shadow-2xl"
-              draggable={false}
-            />
-          </motion.div>
         </div>
 
         {/* Bottom CTA row */}
