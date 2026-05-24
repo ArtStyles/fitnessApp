@@ -119,12 +119,13 @@ export default function HeroScene() {
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none">
+    <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }}>
       <Suspense fallback={null}>
         <Canvas
           camera={{ position: [0, 0, 5.8], fov: 56 }}
           dpr={[1, 1.5]}
           gl={{ antialias: true, alpha: true }}
+          style={{ width: '100%', height: '100%' }}
         >
           <Scene mouse={mouse} />
         </Canvas>

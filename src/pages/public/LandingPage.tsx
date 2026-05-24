@@ -148,16 +148,16 @@ export default function LandingPage() {
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
       <section ref={heroRef} className="relative min-h-screen overflow-hidden flex items-end">
 
-        {/* ── 3D SCENE ── */}
-        <HeroScene />
-
         {/* ── CINEMATIC BACKGROUND ── */}
         <motion.div style={{ y: imgY }} className="absolute inset-0">
           {/* Base dark bg */}
           <div className="absolute inset-0 bg-background" />
 
+          {/* ── 3D SCENE — above dark bg, below photo & gradients ── */}
+          <HeroScene />
+
           {/* Owner photo — covers right 58% of screen */}
-          <div className="absolute inset-y-0 right-0 w-[62%] lg:w-[58%]">
+          <div className="absolute inset-y-0 right-0 w-[62%] lg:w-[58%]" style={{ zIndex: 2 }}>
             <img
               src="/owner.png"
               alt=""
@@ -166,21 +166,13 @@ export default function LandingPage() {
             />
           </div>
 
-          {/* Left gradient: background bleeds over the photo */}
-          <div className="absolute inset-0 bg-gradient-to-r from-background from-[36%] via-background/80 via-[52%] to-transparent" />
-
-          {/* Bottom fade */}
-          <div className="absolute bottom-0 inset-x-0 h-72 bg-gradient-to-t from-background via-background/65 to-transparent" />
-
-          {/* Top fade for navbar area */}
-          <div className="absolute top-0 inset-x-0 h-44 bg-gradient-to-b from-background/90 to-transparent" />
-
-          {/* Right edge fade */}
-          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-background to-transparent" />
-
-          {/* Subtle primary glow at the photo/bg blend edge */}
-          <div className="absolute top-1/4 left-[42%] w-[280px] h-[500px] bg-primary/12 rounded-full blur-[90px] pointer-events-none" />
-          <div className="absolute bottom-1/3 left-[35%] w-[200px] h-[300px] bg-accent/10 rounded-full blur-[70px] pointer-events-none" />
+          {/* Gradients — above photo and 3D scene to blend everything */}
+          <div className="absolute inset-0 bg-gradient-to-r from-background from-[36%] via-background/80 via-[52%] to-transparent" style={{ zIndex: 3 }} />
+          <div className="absolute bottom-0 inset-x-0 h-72 bg-gradient-to-t from-background via-background/65 to-transparent" style={{ zIndex: 3 }} />
+          <div className="absolute top-0 inset-x-0 h-44 bg-gradient-to-b from-background/90 to-transparent" style={{ zIndex: 3 }} />
+          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-background to-transparent" style={{ zIndex: 3 }} />
+          <div className="absolute top-1/4 left-[42%] w-[280px] h-[500px] bg-primary/12 rounded-full blur-[90px] pointer-events-none" style={{ zIndex: 3 }} />
+          <div className="absolute bottom-1/3 left-[35%] w-[200px] h-[300px] bg-accent/10 rounded-full blur-[70px] pointer-events-none" style={{ zIndex: 3 }} />
         </motion.div>
 
         {/* ── TEXT CONTENT ── */}
